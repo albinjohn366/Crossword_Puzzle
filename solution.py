@@ -90,7 +90,7 @@ height = max([val[1] for val in result])
 #             print('# ', end='')
 #     print()
 
-size = (width * 100, height * 100)
+size = (width * 70, height * 70)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Crossword')
 
@@ -100,7 +100,7 @@ while True:
     # white and black boxes with text
     for i in range(width):
         for j in range(height):
-            rect = pygame.Rect(i * 100, j * 100, 100, 100)
+            rect = pygame.Rect(i * 70, j * 70, 70, 70)
             if (i, j) in result:
                 pygame.draw.rect(screen, (0, 0, 0), rect)
             else:
@@ -110,3 +110,5 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+
+    pygame.display.update()
