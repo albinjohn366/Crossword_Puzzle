@@ -3,8 +3,9 @@ from crossword import *
 import pygame
 import sys
 
-crossword = Crossword('structure2.txt', 'words2.txt')
+crossword = Crossword('structure1.txt', 'words1.txt')
 problem = Problem()
+pygame.init()
 
 # Setting variables
 variables = []
@@ -55,7 +56,8 @@ def constraint_length(variable, length):
     def constraint_function(a):
         if len(a) == length:
             return True
-    problem.addConstraint(constraint_function, (variable, ))
+
+    problem.addConstraint(constraint_function, (variable,))
 
 
 for var in variables:
@@ -77,20 +79,13 @@ for answer in solution:
 
     for add in range(length):
         result[(((i + add) if direction == ' \'down\'' else i),
-               ((j + add) if direction == ' \'across\'' else
-                j))] = solution[answer][add]
+                ((j + add) if direction == ' \'across\'' else
+                 j))] = solution[answer][add]
 
-width = max([val[0] for val in result])
-height = max([val[1] for val in result])
-# for i in range(width + 1):
-#     for j in range(height + 1):
-#         if (i, j) in result:
-#             print(result[(i, j)] + ' ', end='')
-#         else:
-#             print('# ', end='')
-#     print()
-
-size = (width * 70, height * 70)
+# Displaying the answer using pygame
+width = max([val[0] for val in result]) + 2
+height = max([val[1] for val in result]) + 2
+size = (height * 70, width * 70)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Crossword')
 
@@ -98,12 +93,17 @@ while True:
     screen.fill((0, 0, 0))
 
     # white and black boxes with text
-    for i in range(width):
-        for j in range(height):
+    for i in range(height):
+        for j in range(width):
             rect = pygame.Rect(i * 70, j * 70, 70, 70)
-            if (i, j) in result:
+            if (j, i) in result:
                 pygame.draw.rect(screen, (255, 255, 255), rect)
                 pygame.draw.rect(screen, (0, 0, 0), rect, 1)
+                font = pygame.font.Font(pygame.font.get_default_font(), 60)
+                text = font.render(result[(j, i)], True, (0, 0, 0))
+                text_rect = text.get_rect()
+                text_rect.center = rect.center
+                screen.blit(text, text_rect)
             else:
                 pygame.draw.rect(screen, (0, 0, 0), rect)
 
