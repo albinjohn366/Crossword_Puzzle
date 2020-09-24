@@ -102,9 +102,10 @@ while True:
         for j in range(height):
             rect = pygame.Rect(i * 70, j * 70, 70, 70)
             if (i, j) in result:
-                pygame.draw.rect(screen, (0, 0, 0), rect)
-            else:
                 pygame.draw.rect(screen, (255, 255, 255), rect)
+                pygame.draw.rect(screen, (0, 0, 0), rect, 1)
+            else:
+                pygame.draw.rect(screen, (0, 0, 0), rect)
 
     # To end the window
     for event in pygame.event.get():
